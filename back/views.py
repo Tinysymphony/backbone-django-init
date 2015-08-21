@@ -9,6 +9,7 @@ from django.template import Context
 from django.shortcuts import render_to_response
 from django.views.decorators.csrf import csrf_exempt
 import json
+import datetime as date
 # Create your views here.
 
 def index(request):
@@ -19,9 +20,13 @@ def index(request):
 
 @csrf_exempt
 def tinyData(request):
-	if(request.method=="POST"):
-		req = json.loads(request.body)
-		print req
-		res = HttpResponse()
-		res.write("ok")
-		return res
+    if(request.method=="POST"):
+        print request.body
+        req = json.loads(request.body)
+        res = {'status': 'ok', 'time': date.datetime}
+        return HttpResponse(req)
+    elif(request.method=="GET"):
+        res = [
+        {'name': 'ter', 'power': 4500},
+        {'name': 'cana', 'power': 4540}]
+        return HttpResponse(json.dumps(res))
